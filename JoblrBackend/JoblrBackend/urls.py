@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from JoblrBackend import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', views.user_list),
+    path('auth/', views.userAuth, name='user_auth'),
 ]

@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image, TextInput, Alert } from "react-native";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading"; // Add this import to handle loading
+import AppLoading from "expo-app-loading";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -9,6 +9,34 @@ import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const [username, setUsername] = useState(""); // State for username
+  const [password, setPassword] = useState(""); // State for password
+
+  const handleSignIn = async () => {
+    try {
+      const response = await fetch("http://10.0.2.2:8000/auth/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Error", data.message || "Invalid credentials");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong. Please try again later.");
+      console.error(error);
+    }
+  };
 
   const handleRegister = () => {
     navigation.navigate("SignUp");
@@ -41,7 +69,11 @@ const LoginScreen = () => {
             color="#2c2c2c"
             style={styles.inputIcon}
           />
-          <TextInput style={styles.textInput} placeholder="Email or Username" />
+          <TextInput
+            style={styles.textInput}
+            placeholder="Email or Username"
+            onChangeText={(username) => setUsername(username)}
+          />
         </View>
         <View style={styles.inputContainer}>
           <AntDesign
@@ -54,12 +86,13 @@ const LoginScreen = () => {
             style={styles.textInput}
             placeholder="Password"
             secureTextEntry
+            onChangeText={(password) => setPassword(password)}
           />
         </View>
         <Text style={styles.forgotPassword}>FORGOT YOUR PASSWORD</Text>
 
         <View style={styles.signInButtonContainer}>
-          <TouchableOpacity onPress={handleRegister}>
+          <TouchableOpacity onPress={handleSignIn}>
             <LinearGradient
               colors={["#D9A7FF", "#A681FF", "#5D4BFF"]}
               style={styles.button}
