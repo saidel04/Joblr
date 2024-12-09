@@ -5,14 +5,49 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading"; // Add this import to handle loading
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 const SignupScreen = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const navigation = useNavigation();
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch("http://10.0.2.2:8000/create/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
+          confirmPassword: confirmPassword,
+        }),
+      });
+      const data = await response.json();
+
+      if (response.status === 200) {
+        navigation.navigate("SignIn");
+      } else {
+        Alert.alert("Error", data.message || "Invalid credentials");
+      }
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong. Please try again later.");
+      console.error(error);
+    }
+  };
+
   const [loaded] = useFonts({
     CustomFont: require("../assets/fonts/LexendGiga-VariableFont_wght.ttf"),
   });
@@ -38,7 +73,11 @@ const SignupScreen = () => {
             color="#2c2c2c"
             style={styles.emailIcon}
           />
-          <TextInput placeholder="Email" style={styles.emailEntry} />
+          <TextInput
+            placeholder="Email"
+            style={styles.emailEntry}
+            onChangeText={(email) => setEmail(email)}
+          />
         </View>
         <View style={styles.emailEntryContainer}>
           <AntDesign
@@ -47,7 +86,11 @@ const SignupScreen = () => {
             color="#2c2c2c"
             style={styles.emailIcon}
           />
-          <TextInput placeholder="Username" style={styles.emailEntry} />
+          <TextInput
+            placeholder="Username"
+            style={styles.emailEntry}
+            onChangeText={(username) => setUsername(username)}
+          />
         </View>
         <View style={styles.emailEntryContainer}>
           <AntDesign
@@ -60,6 +103,7 @@ const SignupScreen = () => {
             placeholder="Password"
             style={styles.emailEntry}
             secureTextEntry
+            onChangeText={(password) => setPassword(password)}
           />
         </View>
         <View style={styles.emailEntryContainer}>
@@ -73,11 +117,14 @@ const SignupScreen = () => {
             placeholder="Confirm Password"
             style={styles.emailEntry}
             secureTextEntry
+            onChangeText={(confirmPassword) =>
+              setConfirmPassword(confirmPassword)
+            }
           />
         </View>
 
         <View style={styles.signUpButtonContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleRegister}>
             <LinearGradient
               colors={["#D9A7FF", "#A681FF", "#5D4BFF"]}
               style={styles.button}

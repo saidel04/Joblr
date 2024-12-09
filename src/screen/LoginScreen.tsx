@@ -71,7 +71,7 @@ const LoginScreen = () => {
           />
           <TextInput
             style={styles.textInput}
-            placeholder="Email or Username"
+            placeholder="Username"
             onChangeText={(username) => setUsername(username)}
           />
         </View>
