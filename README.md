@@ -11,12 +11,8 @@
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Installation](#installation)
 - [API Documentation](#api-documentation)
 - [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -56,48 +52,6 @@ Follow these instructions to set up and run the project locally.
 - Expo CLI
 - Git
 - Android Studio (for emulator) or a physical device with Expo Go
-
-### **Installation**
-
-#### **1. Clone the Repository**
-```bash
-git clone https://github.com/your-username/joblr.git
-cd joblr
-```
-
-#### **2. Frontend Setup**
-```bash
-cd JoblrFrontend
-npm install
-expo start
-```
-
-#### **3. Backend Setup**
-- Navigate to the backend directory:
-  ```bash
-  cd JoblrBackend
-  ```
-- Create a virtual environment and activate it:
-  ```bash
-  python -m venv env
-  source env/bin/activate  # On Windows: env\Scripts\activate
-  ```
-- Install dependencies:
-  ```bash
-  pip install -r requirements.txt
-  ```
-- Apply migrations:
-  ```bash
-  python manage.py migrate
-  ```
-- Run the server:
-  ```bash
-  python manage.py runserver
-  ```
-
-#### **4. Testing the App**
-- Launch the Expo app on your device or use the Android emulator.
-- Use the local IP or `10.0.2.2` for the backend connection.
 
 ---
 
