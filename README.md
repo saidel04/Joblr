@@ -1,7 +1,8 @@
 
 # **Joblr: Simplified Job Applications**
 
-![Joblr Logo](https://via.placeholder.com/150) <!-- Replace with your logo if available -->
+![Joblr](https://github.com/user-attachments/assets/ab399781-c111-46d9-b330-516342352ae6)
+
 
 **Joblr** is a React Native-based mobile application designed to simplify the job application process. Users can swipe through job listings, save jobs for later, and apply directly with minimal effort. The app integrates with a Django backend to handle user authentication and job management securely.
 
