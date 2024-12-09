@@ -106,7 +106,7 @@ expo start
 | Endpoint         | Method | Description                  | Status Codes |
 |------------------|--------|------------------------------|--------------|
 | `/auth/`         | POST   | Authenticate a user          | 200, 400, 401 |
-| `/users/`        | POST   | Register a new user          | 201, 400     |
+| `/create/`       | POST   | Register a new user          | 201, 400     |
 | `/jobs/`         | GET    | Fetch available job listings | 200, 500     |
 
 ---
@@ -127,7 +127,7 @@ expo start
 If you have any questions or feedback, please reach out:
 
 - **Developer**: Said Elakad  
-- **Email**: your-email@example.com  
-- **Phone**: (343)-988-5281  
+- **Email**: Said.Elakad@gmail.com
+
 
 ---
