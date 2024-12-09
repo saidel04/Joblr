@@ -28,7 +28,7 @@ const SignupScreen = () => {
     }
 
     try {
-      const response = await fetch("http://10.0.2.2:8000/create/", {
+      const response = await fetch("http://192.168.4.47:8000/create/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,13 +37,14 @@ const SignupScreen = () => {
           username: username,
           email: email,
           password: password,
+          confirmPassword: confirmPassword,
         }),
       });
 
       const data = await response.json();
 
       if (response.status === 201) {
-        navigation.navigate("SignIn");
+        navigation.navigate("Login");
       } else {
         Alert.alert("Error", data.message || "Invalid input");
       }
