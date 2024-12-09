@@ -69,10 +69,11 @@ Follow these instructions to set up and run the project locally.
 ## **Screenshots**
 
 ### **Login Screen**
-![Login Screen](https://via.placeholder.com/300x600)
+![image](https://github.com/user-attachments/assets/9e87cb17-8af0-4644-b154-faa9bc5d0974)
 
-### **Job Listings**
-![Job Listings](https://via.placeholder.com/300x600)
+
+### **Sign-up Screen**
+![image](https://github.com/user-attachments/assets/d2ad83d1-683a-4c6c-9086-951264df598d)
 
 ---
 
