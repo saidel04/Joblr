@@ -11,6 +11,9 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading"; // Add this import to handle loading
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../context/AuthContext";
 
 const SignupScreen = () => {
   const [loaded] = useFonts({
