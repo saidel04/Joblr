@@ -6,15 +6,18 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../context/AuthContext";
 
 const LoginScreen = () => {
+  const { login } = useAuth();
   const navigation = useNavigation();
-  const [username, setUsername] = useState(""); // State for username
-  const [password, setPassword] = useState(""); // State for password
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSignIn = async () => {
     try {
-      const response = await fetch("http://10.0.2.2:8000/auth/", {
+      const response = await fetch("http://192.168.4.47:8000/auth/token/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,9 +31,11 @@ const LoginScreen = () => {
       const data = await response.json();
 
       if (response.status === 200) {
-        navigation.navigate("Home");
+        await AsyncStorage.setItem("accessToken", data.access);
+        await AsyncStorage.setItem("refreshToken", data.refresh);
+        navigation.navigate("Home"); // Redirect to the next screen
       } else {
-        Alert.alert("Error", data.message || "Invalid credentials");
+        Alert.alert("Error", data.detail || "Invalid credentials");
       }
     } catch (error) {
       Alert.alert("Error", "Something went wrong. Please try again later.");

@@ -22,8 +22,13 @@ const SignupScreen = () => {
   const navigation = useNavigation();
 
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
     try {
-      const response = await fetch("http://10.0.2.2:8000/create/", {
+      const response = await fetch("http://192.168.4.47:8000/create/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,12 +40,13 @@ const SignupScreen = () => {
           confirmPassword: confirmPassword,
         }),
       });
+
       const data = await response.json();
 
-      if (response.status === 200) {
-        navigation.navigate("SignIn");
+      if (response.status === 201) {
+        navigation.navigate("Login");
       } else {
-        Alert.alert("Error", data.message || "Invalid credentials");
+        Alert.alert("Error", data.message || "Invalid input");
       }
     } catch (error) {
       Alert.alert("Error", "Something went wrong. Please try again later.");
