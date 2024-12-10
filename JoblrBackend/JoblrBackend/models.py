@@ -1,6 +1,7 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.db import models
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -36,17 +37,17 @@ class CustomUserManager(BaseUserManager):
         return self.get(username=username)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=True)  # Indicates if the user is active
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)  # Required for admin access
+    is_superuser = models.BooleanField(default=False)  # Required for admin access
     last_login = models.DateTimeField(null=True, blank=True)
 
-    # User first time setup screen
-    firstLogin = models.BooleanField(default=True)
-
     # User-specific additional data
+    firstLogin = models.BooleanField(default=True)
     education = models.CharField(max_length=255, default="", blank=True)
     currentlyEmployed = models.BooleanField(default=False)
     current_organization = models.CharField(max_length=255, default="", blank=True)
@@ -56,10 +57,17 @@ class User(AbstractBaseUser):
     githubLink = models.URLField(max_length=255, default="", blank=True)
     linkedinLink = models.URLField(max_length=255, default="", blank=True)
 
-    objects = CustomUserManager()  # Use the custom manager
-
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         return self.username
+    
+    def has_perm(self, perm, obj=None):
+        return True  
+    
+    def has_module_perms(self, app_label):
+        return True  
+
+    
+

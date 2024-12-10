@@ -20,9 +20,6 @@ def user_list(request):
 
 @csrf_exempt
 def userAuth(request):
-    """
-    Authenticates a user using the default Django authentication system.
-    """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -30,11 +27,13 @@ def userAuth(request):
             password = data.get("password")
 
             user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active and user.firstLogin == False:
-                    return JsonResponse({"message": "User authenticated successfully"}, status=200)
-                if user.is_active and user.firstLogin == True:
-                    return JsonResponse({"message": "User authenticated first login setup"}, status=201)
+            if user:
+                print(f"User: {user.username}, firstLogin: {user.firstLogin}")
+                if user.is_active:
+                    if user.firstLogin:
+                        return JsonResponse({"message": "User authenticated first login setup"}, status=201)
+                    else:
+                        return JsonResponse({"message": "User authenticated successfully"}, status=200)
                 else:
                     return JsonResponse({"message": "User account is inactive"}, status=403)
             else:

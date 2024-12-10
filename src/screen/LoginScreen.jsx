@@ -34,6 +34,9 @@ const LoginScreen = () => {
         await AsyncStorage.setItem("accessToken", data.access);
         await AsyncStorage.setItem("refreshToken", data.refresh);
         navigation.navigate("Home"); // Redirect to the next screen
+      } else if (response.status === 201) {
+        await AsyncStorage.setItem("accessToken", data.access);
+        navigation.navigate("SignUp");
       } else {
         Alert.alert("Error", data.detail || "Invalid credentials");
       }
