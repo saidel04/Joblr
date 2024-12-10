@@ -17,7 +17,7 @@ const LoginScreen = () => {
 
   const handleSignIn = async () => {
     try {
-      const response = await fetch("http://192.168.4.47:8000/auth/token/", {
+      const response = await fetch("http://10.0.2.2:8000/auth/token/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
