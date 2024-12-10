@@ -74,17 +74,22 @@ def userCreate(request):
             if str(data.get("password")).strip() != str(data.get("confirmPassword")).strip():
                 return JsonResponse({"message": "Passwords do not match"}, status=400)
 
-            # Create the user
+            # Create and save the user
             user = User.objects.create(
                 username=data.get("username"),
                 email=data.get("email"),
-                password=make_password(data.get("password")),
+                password=make_password(data.get("password")),  # Hash the password
                 is_active=True  # Set the user as active by default
             )
+
+            # The signal will now handle creating the UserData instance
             return JsonResponse({"message": "User created successfully"}, status=201)
+
         except json.JSONDecodeError:
             return JsonResponse({"message": "Invalid JSON format"}, status=400)
         except Exception as e:
             print(f"Error: {e}")  # Log the error for debugging
             return JsonResponse({"message": str(e)}, status=500)
+
     return JsonResponse({"message": "Invalid request method"}, status=400)
+

@@ -19,10 +19,10 @@ class UserData(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # MANDATORY FOR THE USER
-    education = models.CharField(max_length=255, unique=True, default="") # Should be whatever the user is studying i.e. B. Computer Science
+    education = models.CharField(max_length=255, unique=False, default="") # Should be whatever the user is studying i.e. B. Computer Science
     currentlyEmployed = models.BooleanField(default=False) # Currently employed
-    current_organization = models.CharField(max_length=255, unique=True, default="") # This would be the organization the user is working at i.e. PSPC
-    current_roll = models.CharField(max_length=255, unique=True, default="") # This would be his current position/title
+    current_organization = models.CharField(max_length=255, unique=False, default="") # This would be the organization the user is working at i.e. PSPC
+    current_roll = models.CharField(max_length=255, unique=False, default="") # This would be his current position/title
     city = models.CharField(max_length=255, default= "") # User City
     country = models.CharField(max_length=255, default= "") # User Country
     
