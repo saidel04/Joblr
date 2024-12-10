@@ -5,6 +5,36 @@ from django.contrib.auth import authenticate
 from django.utils.decorators import method_decorator
 from JoblrBackend.models import User  # Import your custom User model
 import json
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        username = data.get("username")
+        password = data.get("password")
+
+        # Authenticate user
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                refresh = RefreshToken.for_user(user)
+                response_data = {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                }
+
+                # Check for first login
+                if user.firstLogin:
+                    response_data["message"] = "First login setup required"
+                    return JsonResponse(response_data, status=201)
+                else:
+                    response_data["message"] = "Login successful"
+                    return JsonResponse(response_data, status=200)
+            else:
+                return JsonResponse({"message": "User account is inactive"}, status=403)
+        else:
+            return JsonResponse({"message": "Invalid credentials"}, status=401)
 
 
 @csrf_exempt
@@ -18,8 +48,13 @@ def user_list(request):
     return JsonResponse({"message": "Invalid request method"}, status=400)
 
 
+
+
 @csrf_exempt
 def userAuth(request):
+    """
+    Authenticates a user and returns tokens.
+    """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -27,13 +62,20 @@ def userAuth(request):
             password = data.get("password")
 
             user = authenticate(username=username, password=password)
-            if user:
-                print(f"User: {user.username}, firstLogin: {user.firstLogin}")
+            if user is not None:
                 if user.is_active:
+                    refresh = RefreshToken.for_user(user)
+                    response_data = {
+                        "refresh": str(refresh),
+                        "access": str(refresh.access_token),
+                    }
+
                     if user.firstLogin:
-                        return JsonResponse({"message": "User authenticated first login setup"}, status=201)
+                        response_data["message"] = "First login setup required"
+                        return JsonResponse(response_data, status=201)  # Status 201 for first login
                     else:
-                        return JsonResponse({"message": "User authenticated successfully"}, status=200)
+                        response_data["message"] = "Login successful"
+                        return JsonResponse(response_data, status=200)  # Status 200 for normal login
                 else:
                     return JsonResponse({"message": "User account is inactive"}, status=403)
             else:
@@ -42,7 +84,9 @@ def userAuth(request):
             return JsonResponse({"message": "Invalid JSON format"}, status=400)
         except Exception as e:
             return JsonResponse({"message": str(e)}, status=500)
+
     return JsonResponse({"message": "Invalid request method"}, status=400)
+
 
 @csrf_exempt
 def userCreate(request):
