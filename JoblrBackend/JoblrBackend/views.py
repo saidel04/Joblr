@@ -31,9 +31,9 @@ def userAuth(request):
 
             user = authenticate(username=username, password=password)
             if user is not None:
-                if user.is_active and not user.firstLogin:
+                if user.is_active and user.firstLogin == False:
                     return JsonResponse({"message": "User authenticated successfully"}, status=200)
-                if user.is_active and user.firstLogin:
+                if user.is_active and user.firstLogin == True:
                     return JsonResponse({"message": "User authenticated first login setup"}, status=201)
                 else:
                     return JsonResponse({"message": "User account is inactive"}, status=403)
