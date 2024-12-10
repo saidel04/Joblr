@@ -92,6 +92,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'JoblrBackend.User'
+
 
 
 # Password validation

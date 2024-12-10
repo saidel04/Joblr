@@ -8,6 +8,9 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)  # Indicates if the user is active
     last_login = models.DateTimeField(null=True, blank=True)
 
+    # User first time setup screen
+    firstLogin = models.BooleanField(default=True)
+
     # User-specific additional data
     education = models.CharField(max_length=255, default="", blank=True)  # What the user is studying
     currentlyEmployed = models.BooleanField(default=False)  # Employment status

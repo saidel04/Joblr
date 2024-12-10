@@ -1,9 +1,9 @@
 from django.http import JsonResponse
-from django.contrib.auth.models import User  # Import the default Django User model
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate
 from django.utils.decorators import method_decorator
+from JoblrBackend.models import User  # Import your custom User model
 import json
 
 
@@ -31,8 +31,10 @@ def userAuth(request):
 
             user = authenticate(username=username, password=password)
             if user is not None:
-                if user.is_active:
+                if user.is_active and not user.firstLogin:
                     return JsonResponse({"message": "User authenticated successfully"}, status=200)
+                if user.is_active and user.firstLogin:
+                    return JsonResponse({"message": "User authenticated first login setup"}, status=201)
                 else:
                     return JsonResponse({"message": "User account is inactive"}, status=403)
             else:
