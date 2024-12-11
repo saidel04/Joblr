@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./src/screen/LoginScreen";
 import SignupScreen from "./src/screen/SignupScreen";
 import HomeScreen from "./src/screen/HomeScreen";
+import PersonalInfo from "./src/screen/PersonalInfo";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { AuthProvider } from "./src/context/AuthContext";
 
@@ -23,6 +24,7 @@ export default function App() {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="SignUp" component={SignupScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Personalinfo" component={PersonalInfo} />
           </Stack.Navigator>
         </NavigationContainer>
       </GestureHandlerRootView>
