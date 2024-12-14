@@ -28,5 +28,4 @@ urlpatterns = [
     path('create/', views.userCreate, name='user_create'),
     path('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
 ]
